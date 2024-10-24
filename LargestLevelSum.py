@@ -35,15 +35,23 @@ class LargestLevelSum:
         :return: The largest sum of any level in the tree
         """
         # Implement the logic to find the maximum level sum of the given binary tree.
+        if not root:
+            return 0
+        queue = deque([(root, 0)])
         
-        queue = deque([root])
         
-
+        levels_sums = {}
         while queue:
             # Logic to process nodes at the current level will go here.
+            node, level = queue.pop()
+            if not node:
+                continue
+            queue.append((node.left, level+1))
+            queue.append((node.right, level+1))
+            levels_sums[level] =  levels_sums.get(level, 0) + node.val
 
-        # Placeholder to return the max level sum; replace 0 with the correct value.
-        return 0
+        
+        return max([val for val in levels_sums.values()])
 
     @staticmethod
     def build_tree_from_level_order(level_order: list) -> TreeNode:
